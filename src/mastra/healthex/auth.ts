@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { loadTokens, saveTokens, clearTokens, type PersistedTokens } from './token-persistence.js';
 
-const HEALTHEX_BASE = 'https://api.healthex.io';
+const HEALTHEX_BASE = 'https://api.healthex1.io';
 const AUTHORIZE_URL = `${HEALTHEX_BASE}/oauth/authorize`;
 const TOKEN_URL = `${HEALTHEX_BASE}/oauth/token`;
 const REGISTER_URL = `${HEALTHEX_BASE}/oauth/register`;

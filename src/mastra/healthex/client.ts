@@ -6,6 +6,7 @@ let mcpClient: MCPClient | null = null;
 
 export async function getHealthExClient(): Promise<MCPClient> {
   if (mcpClient) return mcpClient;
+  debugger;
 
   const auth = getHealthExAuth();
 
@@ -16,7 +17,7 @@ export async function getHealthExClient(): Promise<MCPClient> {
     id: 'healthex',
     servers: {
       healthex: {
-        url: new URL('https://api.healthex.io/mcp'),
+        url: new URL('https://api.healthex1.io/mcp'),
         timeout: 60_000,
         fetch: async (url, init) => {
           const token = await auth.getValidAccessToken();

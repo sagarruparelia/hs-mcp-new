@@ -11,6 +11,10 @@ const envSchema = z
     MONGODB_URI: z.string().min(1, 'MONGODB_URI is required'),
     HEALTHEX_CLIENT_ID: z.string().optional(),
     HEALTHEX_REDIRECT_URI: z.string().default('http://localhost:4111/healthex/callback'),
+    HEALTHEX_MOCK: z
+      .enum(['true', 'false', '1', '0', ''])
+      .default('')
+      .transform((v) => v === 'true' || v === '1'),
     MCP_HTTP_PORT: z.coerce.number().int().positive().default(3001),
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   })

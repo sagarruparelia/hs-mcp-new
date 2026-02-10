@@ -30,6 +30,7 @@ Opens Mastra Studio at [http://localhost:4111](http://localhost:4111).
 | `npm run dev` | Start Mastra dev server (Studio UI + hot reload) |
 | `npm run build` | Production build |
 | `npm run start` | Start production server |
+| `npm run auth:healthex` | Run HealthEx OAuth PKCE flow (opens browser, saves tokens) |
 
 ## Environment Variables
 
@@ -156,6 +157,14 @@ Separate OAuth flow for accessing HealthEx patient data.
 - **Used by**: HealthEx MCP client (custom fetch interceptor injects Bearer token)
 - **Auto-refresh**: Yes, 60 seconds before expiry
 - **Dynamic registration**: Supports `registerClient()` if no `HEALTHEX_CLIENT_ID` is set
+
+**Setup:** Run `npm run auth:healthex` before starting the app. This:
+1. Starts a temporary callback server on the `HEALTHEX_REDIRECT_URI` port
+2. Opens your browser to the HealthEx authorization page
+3. After you authorize, exchanges the code for tokens via PKCE
+4. Saves tokens to `~/.hte/healthex-tokens.json`
+
+If `HEALTHEX_CLIENT_ID` is not set, the script will dynamically register a new OAuth client.
 
 ### Tools
 
