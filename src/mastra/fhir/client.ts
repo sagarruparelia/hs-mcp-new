@@ -26,12 +26,15 @@ export class FhirClient {
   /** Search for FHIR resources: GET {base}/{resourceType}?{params} */
   async search<T extends FhirResource>(
     resourceType: string,
-    params?: Record<string, string | undefined>,
+    params?: Record<string, string | string[] | undefined>,
   ): Promise<FhirBundle<T>> {
     const searchParams = new URLSearchParams();
     if (params) {
       for (const [key, value] of Object.entries(params)) {
-        if (value !== undefined && value !== '') {
+        if (value === undefined || value === '') continue;
+        if (Array.isArray(value)) {
+          for (const v of value) searchParams.append(key, v);
+        } else {
           searchParams.set(key, value);
         }
       }

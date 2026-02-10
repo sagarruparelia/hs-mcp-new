@@ -12,11 +12,11 @@ export interface FhirSearchToolConfig {
   /** Additional input params beyond patientId + dateRange + pagination */
   extraInputSchema?: z.ZodObject<any>;
   /** Map input params to FHIR search params */
-  buildSearchParams: (input: any) => Record<string, string | undefined>;
+  buildSearchParams: (input: any) => Record<string, string | string[] | undefined>;
 }
 
-export function buildDateParam(dateFrom?: string, dateTo?: string): string | undefined {
-  if (dateFrom && dateTo) return `ge${dateFrom}&date=le${dateTo}`;
+export function buildDateParam(dateFrom?: string, dateTo?: string): string | string[] | undefined {
+  if (dateFrom && dateTo) return [`ge${dateFrom}`, `le${dateTo}`];
   if (dateFrom) return `ge${dateFrom}`;
   if (dateTo) return `le${dateTo}`;
   return undefined;

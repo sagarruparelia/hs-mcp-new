@@ -17,5 +17,6 @@ export const searchConditions = createFhirSearchTool({
     category: input.category,
     code: input.code,
     'onset-date': buildDateParam(input.dateFrom, input.dateTo),
+    _sort: '-onset-date',
   }),
 });

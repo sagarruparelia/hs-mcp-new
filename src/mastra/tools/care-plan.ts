@@ -14,5 +14,6 @@ export const searchCarePlans = createFhirSearchTool({
     status: input.status,
     category: input.category,
     date: buildDateParam(input.dateFrom, input.dateTo),
+    _sort: '-date',
   }),
 });
