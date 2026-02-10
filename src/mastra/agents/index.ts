@@ -1,1 +1,1 @@
-export { hteAgent } from './hte-agent.js';
+export { createHteAgent } from './hte-agent.js';
