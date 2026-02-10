@@ -1,5 +1,4 @@
 import { createHash, randomBytes } from 'node:crypto';
-import { env } from '../config/env.js';
 import { loadTokens, saveTokens, clearTokens, type PersistedTokens } from './token-persistence.js';
 
 const HEALTHEX_BASE = 'https://api.healthex.io';

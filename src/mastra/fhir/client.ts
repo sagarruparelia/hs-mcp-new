@@ -87,6 +87,9 @@ let client: FhirClient | null = null;
 
 export function getFhirClient(): FhirClient {
   if (!client) {
+    if (!env.FHIR_BASE_URL) {
+      throw new Error('FHIR_BASE_URL is not configured. Ensure DATA_SOURCES includes fhir.');
+    }
     client = new FhirClient(env.FHIR_BASE_URL, createAuthStrategy());
   }
   return client;

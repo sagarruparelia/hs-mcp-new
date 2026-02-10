@@ -19,6 +19,13 @@ export class OidcPkceAuthStrategy implements AuthStrategy {
   private tokenStore = new TokenStore();
   private refreshPromise: Promise<void> | null = null;
 
+  private get clientId(): string {
+    if (!env.HSID_CLIENT_ID) {
+      throw new Error('HSID_CLIENT_ID is not configured. Ensure DATA_SOURCES includes fhir.');
+    }
+    return env.HSID_CLIENT_ID;
+  }
+
   private get tokenEndpoint(): string {
     return `${env.HSID_ISSUER_URL}/oidc/token`;
   }
@@ -38,7 +45,7 @@ export class OidcPkceAuthStrategy implements AuthStrategy {
   buildAuthorizationUrl(codeChallenge: string, state: string): string {
     const params = new URLSearchParams({
       response_type: 'code',
-      client_id: env.HSID_CLIENT_ID,
+      client_id: this.clientId,
       redirect_uri: env.HSID_REDIRECT_URI,
       scope: 'openid profile',
       code_challenge: codeChallenge,
@@ -54,7 +61,7 @@ export class OidcPkceAuthStrategy implements AuthStrategy {
       grant_type: 'authorization_code',
       code,
       redirect_uri: env.HSID_REDIRECT_URI,
-      client_id: env.HSID_CLIENT_ID,
+      client_id: this.clientId,
       code_verifier: codeVerifier,
     });
 
@@ -92,7 +99,7 @@ export class OidcPkceAuthStrategy implements AuthStrategy {
     const body = new URLSearchParams({
       grant_type: 'refresh_token',
       refresh_token: current.refreshToken!,
-      client_id: env.HSID_CLIENT_ID,
+      client_id: this.clientId,
     });
 
     const res = await fetch(this.tokenEndpoint, {
