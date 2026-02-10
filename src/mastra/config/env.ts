@@ -6,7 +6,7 @@ const envSchema = z
     ANTHROPIC_API_KEY: z.string().min(1, 'ANTHROPIC_API_KEY is required'),
     FHIR_BASE_URL: z.url().optional(),
     HSID_ISSUER_URL: z.string().default('https://nonprod.identity.healthsafe-id.com'),
-    HSID_CLIENT_ID: z.string().optional(),
+    HSID_CLIENT_ID: z.string().min(1, 'HSID_CLIENT_ID is required'),
     HSID_REDIRECT_URI: z.string().default('http://localhost:4111/auth/callback'),
     MONGODB_URI: z.string().min(1, 'MONGODB_URI is required'),
     HEALTHEX_CLIENT_ID: z.string().optional(),
@@ -16,21 +16,12 @@ const envSchema = z
   })
   .superRefine((data, ctx) => {
     const needsFhir = data.DATA_SOURCES === 'fhir' || data.DATA_SOURCES === 'both';
-    if (needsFhir) {
-      if (!data.FHIR_BASE_URL) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['FHIR_BASE_URL'],
-          message: 'FHIR_BASE_URL is required when DATA_SOURCES includes fhir',
-        });
-      }
-      if (!data.HSID_CLIENT_ID) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['HSID_CLIENT_ID'],
-          message: 'HSID_CLIENT_ID is required when DATA_SOURCES includes fhir',
-        });
-      }
+    if (needsFhir && !data.FHIR_BASE_URL) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['FHIR_BASE_URL'],
+        message: 'FHIR_BASE_URL is required when DATA_SOURCES includes fhir',
+      });
     }
   });
 
