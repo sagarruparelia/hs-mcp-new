@@ -158,9 +158,7 @@ export class HealthExAuth {
 
   /** Get a valid access token, refreshing if expired. Deduplicates concurrent calls. */
   async getValidAccessToken(): Promise<string> {
-    if (!this.cachedTokens) {
-      this.cachedTokens = await loadTokens();
-    }
+    this.cachedTokens ??= await loadTokens();
 
     if (!this.cachedTokens) {
       throw new Error('No HealthEx tokens available. Run auth setup first.');

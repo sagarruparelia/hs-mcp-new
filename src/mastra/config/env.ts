@@ -10,7 +10,7 @@ const envSchema = z
     HSID_REDIRECT_URI: z.string().default('http://localhost:4111/auth/callback'),
     MONGODB_URI: z.string().min(1, 'MONGODB_URI is required'),
     HEALTHEX_CLIENT_ID: z.string().optional(),
-    HEALTHEX_REDIRECT_URI: z.string().default('http://localhost:4111/healthex/callback'),
+    HEALTHEX_REDIRECT_URI: z.string().default('http://localhost:4222/healthex/callback'),
     HEALTHEX_MOCK: z
       .enum(['true', 'false', '1', '0', ''])
       .default('')
