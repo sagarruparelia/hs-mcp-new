@@ -18,6 +18,9 @@ export async function assemble(logger?: { warn: (msg: string, meta?: Record<stri
       const healthExTools = await getHealthExTools();
       tools = { ...tools, ...healthExTools };
     } catch (err) {
+      if (!fhirEnabled) {
+        throw new Error('HealthEx is the only data source but failed to load. Run auth setup first.');
+      }
       logger?.warn('HealthEx MCP not available — run auth setup first', { error: err });
     }
   }
